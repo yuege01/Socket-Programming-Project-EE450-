@@ -1,0 +1,56 @@
+/************************************************************************************/
+README FILE OF ZIWEI FANG
+/************************************************************************************/
+
+
+a. Ziwei Fang
+
+b. ziwefan 2105234703
+
+c. I implemented a model computational offloading where a single client issues two functions (compute and write) and parameters (depends on the function) to the AWS server and expects the reply for the end-to-end delay of the designated link.
+
+d. aws.c: Implementation of AWS server, it reads input from client, ouput results to client and monitor, sends data to 
+   serverA for writting to database or retrieve data from database for later computation of delays, send compute commands to serverB to compute end-to-end delay.
+   client.c: Implentation of client, its job is to create data to be written to database and send it to AWS or send compute command to AWS.
+   monitor: receive message from AWS and print it to screen
+   serverA: write data received from AWS to database, search for data in database and send it back to AWS server
+   serverB: compute end-to-end delay according to data provided by AWS server, and send results back to AWS server
+   client.h: data structure used to store information about link.
+
+e. Backend-Server A Terminal:
+	The Server A is up and running using UDP on port <21319>. The Server A received input for writing
+	The Server A wrote link <10> to database
+	The Server A received input <5> for computing
+	The Server A finished sending the search result to AWS
+Backend-Server B Terminal:
+	The Server B is up and running using UDP on port <22319>
+	The Server B received link information: link <5>, file size <1000>, and signal power <10> The Server B finished the calculation for link <5>
+	The Server B finished sending the output to AWS
+AWS Terminal:
+	The AWS is up and running
+	The AWS received operation <write> from the client using TCP over port <24319> The AWS sent operation <write> and arguments to the monitor using TCP over port <25319>
+	The AWS sent operation <write> to Backend-Server A using UDP over port <23319> The AWS received response from Backend-Server A for writing using UDP over port <23319>
+	The AWS sent write response to the monitor using TCP over port <25319>
+	The AWS sent result to client for operation <write> using TCP over port <24319> The AWS received operation <compute> from the client using TCP over port <24319>
+	The AWS sent operation <compute> and arguments to the monitor using TCP over port <25319>
+	The AWS sent operation <compute> to Backend-Server A using UDP over port <23319>
+	The AWS received link information from Backend-Server A using UDP over port <23319>
+	The AWS sent link ID = <5>, size = <1000>, power = <10>, and link information to Backend-Server B using UDP over port <23319>
+	The AWS received outputs from Backend-Server B using UDP over port < 23319 > The AWS sent result to client for operation <compute> using TCP over port <24319> The AWS sent compute results to the monitor using TCP over port <25319 >
+Client Terminal:
+	The client is up and running
+	The client sent write operation to AWS
+	The write operation has been completed successfully
+	The client sent link ID=<5>, size=<1000>, and power=<10> to AWS The delay for link <5> is <0.42>ms
+Monitor Terminal:
+	The monitor is up and running
+	The monitor received BW = <25>, L = <3>, V = <200000> and P = <10> from the AWS The write operation has been completed successfully
+	The monitor received input=<5>, size=<10000>, and power=<10> from the AWS
+	The result for link <5>:
+	Tt = <0.40>ms
+	Tp = <0.015>ms
+	Delay = <0.42>ms
+
+g. NONE
+
+h. Reused Code: I reused code from Beej's Guide to Network Programming about how to create UDP socket and TCP socket and how to send and receive data from the other end of socket connection.
