@@ -127,16 +127,12 @@ int main(void)
                 pch = strtok (line,"\t");
                 pch = strtok(NULL, "\t");
                 nextCommand.bandwidth = atof(pch);
-                printf("%s\n", pch);
                 pch = strtok (NULL,"\t");
                 nextCommand.length = atof(pch);
-                printf("%s\n", pch);
                 pch = strtok (NULL,"\t");
                 nextCommand.velocity = atof(pch);
-                printf("%s\n", pch);
                 pch = strtok (NULL,"\t");
                 nextCommand.noisePower = atof(pch);
-                printf("%s\n", pch);
                 sendto(sockfd, &nextCommand, sizeof (struct commandInfo), 0, (struct sockaddr *) &their_addr, addr_len);
                 printf("The Server A finished sending the search result to AWS\n");
             }

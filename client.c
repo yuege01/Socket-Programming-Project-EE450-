@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
         printf("The client sent write operation to AWS\n");
     }
     else {
-        printf("The client sent ID=<%d>, size=<%.2f>, and power=<%.2f> to AWS\n", myCommand.linkID, myCommand.size, myCommand.signalPower);
+        printf("The client sent ID=<%d>, size=<%g>, and power=<%g> to AWS\n", myCommand.linkID, myCommand.size, myCommand.signalPower);
     }
     char resMessage[1024];
     memset(resMessage, 0, sizeof resMessage);

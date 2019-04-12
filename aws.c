@@ -76,7 +76,7 @@ int compute(double *res, struct commandInfo link, struct commandInfo myCommand) 
     }  
     freeaddrinfo(servinfo);
     // AWS has sent compute command to serverB
-    printf("The AWS sent link ID=<%d>, size=<%.2f>, power=<%.2f>, and link information to Backend-Server B using UDP over port <23703>\n", myCommand.linkID, link.size, link.signalPower);
+    printf("The AWS sent link ID=<%d>, size=<%f>, power=<%f>, and link information to Backend-Server B using UDP over port <23703>\n", myCommand.linkID, link.size, link.signalPower);
     addr_len = sizeof their_addr;
     if ((numbytes = recvfrom(sockfd, &result, sizeof (struct commandInfo) , 0,
         (struct sockaddr *)&their_addr, &addr_len)) == -1) {
@@ -321,7 +321,7 @@ int main(void)
                 printf("The AWS received operation <write> from the client using TCP over port <24703>\n");
                 printf("The AWS sent operation <write> and arguments to the monitor using TCP over port <25703>\n");
                 char buffer[1024];
-                snprintf(buffer, sizeof(buffer), "The monitor received BW = <%.2f>, L = <%.2f>, V = <%.2f> and P = <%.2f> from the AWS\n", myCommand.bandwidth, myCommand.length, myCommand.velocity, myCommand.noisePower);
+                snprintf(buffer, sizeof(buffer), "The monitor received BW = <%f>, L = <%f>, V = <%f> and P = <%f> from the AWS\n", myCommand.bandwidth, myCommand.length, myCommand.velocity, myCommand.noisePower);
                 if (send(new_fd1, buffer, 1024, 0) == -1)
                     perror("send");
                 writeToDataBase(myCommand);
@@ -338,7 +338,7 @@ int main(void)
             else if(strcmp(myCommand.command, "compute") == 0){
                 printf("The AWS received operation <compute> from the client using TCP over port <24703>\n");
                 char buffer1[1024];
-                snprintf(buffer1, sizeof(buffer), "The monitor received link ID=<%d>, size=<%.2f>, and power=<%.2f> from the AWS\n", myCommand.linkID, myCommand.size, myCommand.signalPower);
+                snprintf(buffer1, sizeof(buffer), "The monitor received link ID=<%d>, size=<%f>, and power=<%f> from the AWS\n", myCommand.linkID, myCommand.size, myCommand.signalPower);
                 if (send(new_fd1, buffer1, 1024, 0) == -1)
                     perror("send");
                 printf("The AWS sent operation <compute> and arguments to the monitor using TCP over port <25703>\n");
@@ -364,7 +364,7 @@ int main(void)
                         perror("send");
                     printf("The AWS sent compute result to the client using TCP over port <24703>\n");
                     char buffer1[1024];
-                    snprintf(buffer1, sizeof(buffer1), "The result for link <%d>: Tt = <%.2f>ms, Tp = <%.2f>ms, Delay = <%.2f>ms\n", myCommand.linkID, res[0] * 1000, res[1] * 1000, (res[0] + res[1]) * 1000);
+                    snprintf(buffer1, sizeof(buffer1), "The result for link <%d>: \nTt = <%.2f>ms,\nTp = <%.2f>ms,\nDelay = <%.2f>ms\n", myCommand.linkID, res[0] * 1000, res[1] * 1000, (res[0] + res[1]) * 1000);
                     if (send(new_fd1, buffer1, 1024, 0) == -1)
                         perror("send");
                     printf("The AWS sent compute results to the monitor using TCP over port <25703>\n");

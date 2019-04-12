@@ -73,7 +73,7 @@ int main(void)
             perror("recvfrom");
             exit(1);
         }
-        printf("The Server B received link information: link <%d>, file size <%.2f>, and signal power <%.2f>\n", myCommand.linkID, myCommand.size, myCommand.signalPower);
+        printf("The Server B received link information: link <%d>, file size <%g>, and signal power <%g>\n", myCommand.linkID, myCommand.size, myCommand.signalPower);
         // calculate end-to-end delay
         double ratio = log2(myCommand.signalPower / myCommand.noisePower + 1);
         double trans = myCommand.bandwidth * 1000000 * ratio;
