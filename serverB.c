@@ -75,6 +75,8 @@ int main(void)
         }
         printf("The Server B received link information: link <%d>, file size <%g>, and signal power <%g>\n", myCommand.linkID, myCommand.size, myCommand.signalPower);
         // calculate end-to-end delay
+        myCommand.signalPower = pow(10, myCommand.signalPower / 10) / 1000;
+        myCommand.noisePower = pow(10, myCommand.noisePower / 10) / 1000;
         double ratio = log2(myCommand.signalPower / myCommand.noisePower + 1);
         double trans = myCommand.bandwidth * 1000000 * ratio;
         myCommand.transDelay = myCommand.size / trans;
